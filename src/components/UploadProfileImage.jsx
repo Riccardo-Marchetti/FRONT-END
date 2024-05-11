@@ -41,11 +41,11 @@ const UploadProfileImage = () => {
         onChange={changeProfileImage}
       />
       <Button
-        className="profile-but-img rounded-circle border-black  bg-transparent mt-3 me-1"
+        className="profile-but-img rounded-circle border-black border-2  bg-transparent mt-3 me-1"
         style={{ width: "45px", height: "45px" }}
         onClick={handleClick}
       >
-        <i className="fas fa-camera"></i>
+        <i className="fas fa-camera d-flex justify-content-center align-items-center "></i>
       </Button>
     </>
   );
