@@ -5,7 +5,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import logo from "../assets/LogoNavbar.png";
+import logo from "../assets/Blue Yellow Futuristic Virtual Technology Blog Banner (4).png";
 
 const MyNavBar = () => {
   const [user, setUser] = useState([]);
@@ -35,7 +35,7 @@ const MyNavBar = () => {
 
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary">
+      <Navbar expand="md" className="bg-body-tertiary navbar">
         <Container fluid>
           <Navbar.Brand href="#">
             <img
@@ -54,14 +54,14 @@ const MyNavBar = () => {
             >
               <Link
                 to="/"
-                className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-black"
+                className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-white"
               >
                 {" "}
                 Home{" "}
               </Link>{" "}
               <Link
                 to="/promotions"
-                className="text-decoration-none d-flex align-items-center ms-1 me-4 text-black"
+                className="text-decoration-none d-flex align-items-center ms-1 me-4 text-white"
               >
                 {" "}
                 Promotions{" "}
@@ -74,13 +74,15 @@ const MyNavBar = () => {
                 className="me-2"
                 aria-label="Search"
               />
-              <Button variant="outline-success">Search</Button>
+              <Button className="text-white border-0  search-but">
+                Search
+              </Button>
             </Form>
             <Link to={"/profile"} className="text-decoration-none d-flex   ">
               <div className="d-flex align-items-center justify-content-start mt-2 mt-md-0 ">
                 <Button className="rounded-circle ms-md-3 mt-1 mb-1 mb-md-0  mt-md-0 p-0  button-login d-flex align-items-center bg-transparent border-0">
                   <img
-                    className=" rounded-circle object-fit-cover"
+                    className=" rounded-circle object-fit-cover me-md-2"
                     src={user.avatar}
                     style={{ width: "45px", height: "45px" }}
                     alt="profile-image"

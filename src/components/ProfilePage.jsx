@@ -1,7 +1,8 @@
 import { Col, Row } from "react-bootstrap";
-import MyNavBar from "./MyNavBar";
+
 import { useEffect, useState } from "react";
 import UploadProfileImage from "./UploadProfileImage";
+import MyNavBar from "./MyNavBar";
 
 const ProfilePage = () => {
   const [user, setUser] = useState([]);
@@ -20,7 +21,7 @@ const ProfilePage = () => {
         console.log(data);
         setUser(data);
       } else {
-        throw new Error(`${response.status} - Errore nella fetch`);
+        throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
       console.log(error);
@@ -40,22 +41,31 @@ const ProfilePage = () => {
         console.log(data);
         setTicket(data);
       } else {
-        throw new Error(`${response.status} - Errore nella fetch`);
+        throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  function convertiData(dataBackend) {
+    let partiData = dataBackend.split("-");
+    let anno = partiData[0];
+    let mese = partiData[1];
+    let giorno = partiData[2];
+
+    let dataConvertita = giorno + "-" + mese + "-" + anno;
+    return dataConvertita;
+  }
 
   useEffect(() => {
     getUser();
     getTicket();
   }, []);
   return (
-    <>
+    <div className="profile-cont">
       <MyNavBar />
-      <Row className="mt-4 d-flex justify-content-center mx-3 ">
-        <Col className="col-12 col-sm-10 col-md-5 col-xxl-3 profile-col me-md-4">
+      <Row className="mt-4 d-flex justify-content-center mx-3 mx-sm-0 ">
+        <Col className="col-12 col-sm-10 col-md-5 col-lg-4  col-xxl-3 profile-col me-md-4">
           <Row>
             <Col className="col-6 d-flex justify-content-start ps-4">
               <img
@@ -83,28 +93,38 @@ const ProfilePage = () => {
             </h6>
           </Col>
         </Col>
-        <Col className="col-12 col-sm-10 col-md-6 col-xl-5 col-xxl-6 mt-3 mt-md-0 tickets-col ms-md-1 ">
-          <div className="d-flex justify-content-center mt-3 ">
-            <h5>My tickets :</h5>
+        <Col className="col-12 col-sm-10 col-md-6   mt-3 mt-md-0 tickets-col ms-md-1 ">
+          <div className="d-flex justify-content-center mt-3 mt-md-2">
+            <h3>My tickets :</h3>
           </div>
-          {ticket && ticket.length > 0 ? (
-            ticket.map((tick, i) => {
-              return (
-                <>
-                  <div key={i}>
-                    <h6>ciao</h6>
+          <Row className="justify-content-center  ">
+            {ticket && ticket.length > 0 ? (
+              ticket.map((tick, i) => {
+                return (
+                  <div
+                    key={i}
+                    className="ticket mt-2 pb-2 ps-3 mb-2 col-11 col-sm-5 col-md-11 col-lg-5  mx-sm-2  mx-lg-2  "
+                  >
+                    <h5 className="fw-semi-bold pt-3">
+                      {tick.show.film.title}
+                    </h5>
+                    <p>Theater: {tick.show.cinemaRoom.cinema.name}</p>
+                    <p>Showtime: {tick.selectedShowTime}</p>
+                    <p>Show date: {convertiData(tick.show.showDate)}</p>
+                    <p>Seats: {tick.assignedSeats.join(" - ")}</p>
+                    <p className="fw-bold">Ticket price: {tick.price} €</p>
                   </div>
-                </>
-              );
-            })
-          ) : (
-            <div className="d-flex justify-content-center align-items-center ">
-              <p>You haven&apos;t booked any tickets</p>
-            </div>
-          )}
+                );
+              })
+            ) : (
+              <div className="d-flex justify-content-center align-items-center ">
+                <p>You haven&apos;t booked any tickets</p>
+              </div>
+            )}
+          </Row>
         </Col>
       </Row>
-    </>
+    </div>
   );
 };
 export default ProfilePage;
