@@ -6,6 +6,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import RegisterPage from "./components/RegisterPage";
 import ProfilePage from "./components/ProfilePage";
 import HomePage from "./components/HomePage";
+import FilmDetails from "./components/FilmDetails";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/home" element={<HomePage />} />
+        <Route path="/movie-details/:filmId" element={<FilmDetails />} />
       </Routes>
     </BrowserRouter>
   );
