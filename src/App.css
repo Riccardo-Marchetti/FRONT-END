@@ -144,10 +144,45 @@
   }
 }
 
-/* .text-area {
-  width: 300px;
-} */
-
 .fadeIn {
   animation: fadeIn 1.5s ease-in-out 1;
+}
+
+/* HOME PAGE */
+.film-buttons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.film-col:hover .film-buttons {
+  opacity: 1;
+}
+
+.book-but,
+.trailer-but {
+  font-size: 13px;
+}
+.book-but {
+  background-color: rgb(48, 132, 228);
+  border: none;
+}
+
+.trailer-but {
+  color: rgb(15, 127, 255);
+  background-color: rgb(252, 252, 245);
+  border: none;
+}
+.trailer-but:hover {
+  background-color: rgb(252, 252, 245);
+  color: rgb(15, 127, 255);
+}
+.book-but:hover {
+  background-color: rgb(48, 132, 228);
 }
