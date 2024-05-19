@@ -34,8 +34,9 @@ const HomePage = () => {
     }
   };
 
-  const handleButtonClick = () => {
-    navigate("/book-ticket");
+  const handleButtonClick = (filmId) => {
+    console.log(filmId);
+    navigate(`/movie-details/${filmId}`);
   };
 
   useEffect(() => {
@@ -58,19 +59,16 @@ const HomePage = () => {
                   className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2 d-flex  justify-content-center gy-4 mx-0 px-0 film-col"
                   style={{ height: "300px", position: "relative" }}
                 >
-                  <Link to={`/movie-details/${film.id}`} key={film.id}>
-                    {" "}
-                    <img
-                      src={film.cover}
-                      alt="cover-film"
-                      style={{
-                        height: "100%",
-                        width: "200px",
-                        objectFit: "cover",
-                        borderRadius: "10px",
-                      }}
-                    />
-                  </Link>
+                  <img
+                    src={film.cover}
+                    alt="cover-film"
+                    style={{
+                      height: "100%",
+                      width: "200px",
+                      objectFit: "cover",
+                      borderRadius: "10px",
+                    }}
+                  />
                   <div className="film-buttons  col-xxl-9 col-xl-7 col-lg-8 col-md-8 col-sm-9 px-sm-3 px-md-0 ">
                     <Button
                       variant="primary"
@@ -90,7 +88,7 @@ const HomePage = () => {
                     <Button
                       variant="primary"
                       className="m-1 book-but"
-                      onClick={handleButtonClick}
+                      onClick={() => handleButtonClick(film.id)}
                     >
                       BOOK TICKET
                     </Button>
@@ -99,7 +97,7 @@ const HomePage = () => {
               );
             })}
             <h1 id="coming-soon" className="text-center px-0 mx-0 mt-3 mb-2">
-              Cooming soon
+              Coming soon
             </h1>
             {film.slice(-8).map((film, i) => {
               return (

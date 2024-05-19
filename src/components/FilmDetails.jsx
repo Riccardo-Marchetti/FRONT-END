@@ -11,9 +11,10 @@ import { useEffect, useState } from "react";
 import MyNavBar from "./MyNavBar";
 import { useParams } from "react-router-dom";
 import FilmCoverDetails from "./FilmCoverDetails";
+import BookTicket from "./BookTicket";
 
 const FilmDetails = () => {
-  const [film, setFilm] = useState([]);
+  const [show, setShow] = useState([]);
   const [comments, setComments] = useState([]);
   const [showAll, setShowAll] = useState(false);
   const [rating, setRating] = useState(0);
@@ -46,10 +47,10 @@ const FilmDetails = () => {
   };
 
   useEffect(() => {
-    const fetchFilm = async () => {
+    const fetchShow = async () => {
       try {
         const response = await fetch(
-          `http://localhost:3001/film/${params.filmId}`,
+          `http://localhost:3001/show/film/${params.filmId}`,
           {
             headers: {
               "Content-Type": "application/json",
@@ -60,7 +61,7 @@ const FilmDetails = () => {
         if (response.ok) {
           const data = await response.json();
           console.log(data);
-          setFilm(data);
+          setShow(data);
         } else {
           throw new Error(`${response.status} - Error in fetch`);
         }
@@ -68,7 +69,6 @@ const FilmDetails = () => {
         console.log(error);
       }
     };
-
     const fetchComment = async () => {
       try {
         const response = await fetch(
@@ -92,7 +92,8 @@ const FilmDetails = () => {
       }
     };
 
-    fetchFilm();
+    // fetchFilm();
+    fetchShow();
     fetchComment();
   }, [params.filmId]);
   const handleStarClick = (value, half) => {
@@ -137,10 +138,11 @@ const FilmDetails = () => {
               minHeight: "60vh",
             }}
           >
-            <FilmCoverDetails film={film} convertiData={convertiData} />
+            <FilmCoverDetails show={show} convertiData={convertiData} />
           </Row>
         </Container>
 
+        <BookTicket show={show} convertiData={convertiData} />
         <Row className=" mt-4 col-11 d-flex justify-content-start align-items-center ps-3">
           <Col className="col-12  justify-content-start ">
             <h3>Add a new review</h3>
@@ -201,7 +203,10 @@ const FilmDetails = () => {
                   placeholder="Leave a comment here"
                 />
               </FloatingLabel>
-              <Button className="mb-3 a" onClick={handlePostComment}>
+              <Button
+                className="mb-3 add-comment-but"
+                onClick={handlePostComment}
+              >
                 ADD COMMENT
               </Button>
             </Col>
@@ -211,7 +216,7 @@ const FilmDetails = () => {
             ) : (
               (showAll ? comments : comments.slice(0, 5)).map((comment, i) => {
                 return (
-                  <Row key={i} className="mb-2 comment-row mt-3">
+                  <Row key={i} className="mb-2 comment-row py-3 mt-3">
                     <Col className="col-1  ps-4 pe-2 pe-sm-5 col-img-prof">
                       <img
                         src={comment.user.avatar}

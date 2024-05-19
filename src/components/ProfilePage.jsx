@@ -108,7 +108,10 @@ const ProfilePage = () => {
                     <h5 className="fw-semi-bold pt-3">
                       {tick.show.film.title}
                     </h5>
-                    <p>Theater: {tick.show.cinemaRoom.cinema.name}</p>
+                    <p>
+                      Theater: {tick.show.cinemaRoom.cinema.name}{" "}
+                      {tick.show.cinemaRoom.cinema.city}
+                    </p>
                     <p>Showtime: {tick.selectedShowTime}</p>
                     <p>Show date: {convertiData(tick.show.showDate)}</p>
                     <p>Seats: {tick.assignedSeats.join(" - ")}</p>
