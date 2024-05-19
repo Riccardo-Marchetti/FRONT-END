@@ -3,12 +3,17 @@ import { Col, Row } from "react-bootstrap";
 import { useEffect, useState } from "react";
 import UploadProfileImage from "./UploadProfileImage";
 import MyNavBar from "./MyNavBar";
+import Error from "./Error";
+import Loading from "./Loading";
 
 const ProfilePage = () => {
   const [user, setUser] = useState([]);
   const [ticket, setTicket] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
 
   const getUser = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/user/me", {
         headers: {
@@ -20,15 +25,18 @@ const ProfilePage = () => {
         const data = await response.json();
         console.log(data);
         setUser(data);
+        setIsLoading(false);
       } else {
         throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+      setIsLoading(false);
     }
   };
 
   const getTicket = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/user/me/tickets", {
         headers: {
@@ -40,13 +48,16 @@ const ProfilePage = () => {
         const data = await response.json();
         console.log(data);
         setTicket(data);
+        setIsLoading(false);
       } else {
         throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+      setIsLoading(false);
     }
   };
+
   function convertiData(dataBackend) {
     let partiData = dataBackend.split("-");
     let anno = partiData[0];
@@ -61,6 +72,14 @@ const ProfilePage = () => {
     getUser();
     getTicket();
   }, []);
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
   return (
     <div className="profile-cont">
       <MyNavBar />

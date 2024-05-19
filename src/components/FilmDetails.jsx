@@ -12,6 +12,8 @@ import MyNavBar from "./MyNavBar";
 import { useParams } from "react-router-dom";
 import FilmCoverDetails from "./FilmCoverDetails";
 import BookTicket from "./BookTicket";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const FilmDetails = () => {
   const [show, setShow] = useState([]);
@@ -19,9 +21,12 @@ const FilmDetails = () => {
   const [showAll, setShowAll] = useState(false);
   const [rating, setRating] = useState(0);
   const [description, setDescription] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState("");
   const params = useParams();
 
   const postComment = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch(
         `http://localhost:3001/comment/me/${params.filmId}`,
@@ -42,12 +47,14 @@ const FilmDetails = () => {
         throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+      setIsLoading(false);
     }
   };
 
   useEffect(() => {
     const fetchShow = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://localhost:3001/show/film/${params.filmId}`,
@@ -62,14 +69,18 @@ const FilmDetails = () => {
           const data = await response.json();
           console.log(data);
           setShow(data);
+          setIsLoading(false);
         } else {
           throw new Error(`${response.status} - Error in fetch`);
         }
       } catch (error) {
-        console.log(error);
+        setError("Error in fetch");
+        setIsLoading(false);
       }
     };
+
     const fetchComment = async () => {
+      setIsLoading(true);
       try {
         const response = await fetch(
           `http://localhost:3001/comment/comments/${params.filmId}`,
@@ -84,17 +95,20 @@ const FilmDetails = () => {
           const data = await response.json();
           console.log(data.content);
           setComments(data.content);
+          setIsLoading(false);
         } else {
           throw new Error(`${response.status} - Error in fetch`);
         }
       } catch (error) {
-        console.log(error);
+        setError("Error in fetch");
+        setIsLoading(false);
       }
     };
 
     fetchShow();
     fetchComment();
   }, [params.filmId]);
+
   const handleStarClick = (value, half) => {
     setRating(value + half);
   };
@@ -124,6 +138,15 @@ const FilmDetails = () => {
     let formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
     return formattedTime;
   }
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
+
   return (
     <>
       <header>
@@ -257,4 +280,5 @@ const FilmDetails = () => {
     </>
   );
 };
+
 export default FilmDetails;

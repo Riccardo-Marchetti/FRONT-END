@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
 import { Col, Dropdown, DropdownButton, Row } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,7 +10,8 @@ import {
   selectShowId,
 } from "../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
-const BookTicket = ({ show, convertiData }) => {
+
+const BookTicket = ({ show }) => {
   const [errorMessage, setErrorMessage] = useState(null);
   const dispatch = useDispatch();
 
@@ -17,7 +19,6 @@ const BookTicket = ({ show, convertiData }) => {
   const selectedCity = useSelector((state) => state.ticket.selectCity);
   const selectedDay = useSelector((state) => state.ticket.selectDay);
   const selectedTime = useSelector((state) => state.ticket.selectTime);
-  // const ticketBooked = useSelector((state) => state.ticket.bookTicket);
 
   const navigate = useNavigate();
 
@@ -34,7 +35,7 @@ const BookTicket = ({ show, convertiData }) => {
       dispatch(selectShowId(matchingShow.id));
     } else {
       setErrorMessage(
-        "Non ci sono spettacoli disponibili che corrispondono ai tuoi criteri di ricerca."
+        "There are no shows available that match your search criteria."
       );
       dispatch(selectCinema(null));
       dispatch(selectCity(null));
@@ -77,6 +78,7 @@ const BookTicket = ({ show, convertiData }) => {
       window.removeEventListener("unload", unloadListener);
     };
   }, [dispatch]);
+
   return (
     <>
       <Row>
@@ -134,7 +136,7 @@ const BookTicket = ({ show, convertiData }) => {
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <button onClick={handleNavigate}>Prenota biglietto</button>
+          <button onClick={handleNavigate}>Book ticket</button>
         </Col>
       </Row>
       {errorMessage && <p>{errorMessage}</p>}

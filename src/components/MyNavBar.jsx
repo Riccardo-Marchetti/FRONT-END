@@ -6,10 +6,15 @@ import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import logo from "../assets/Blue Yellow Futuristic Virtual Technology Blog Banner (4).png";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const MyNavBar = () => {
   const [user, setUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const getUser = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/user/me", {
         headers: {
@@ -21,11 +26,13 @@ const MyNavBar = () => {
         const data = await response.json();
         console.log(data);
         setUser(data);
+        setIsLoading(false);
       } else {
         throw new Error(`${response.status} - Errore nella fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+      setIsLoading(false);
     }
   };
 
@@ -33,6 +40,13 @@ const MyNavBar = () => {
     getUser();
   }, []);
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary navbar">

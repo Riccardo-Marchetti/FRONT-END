@@ -1,13 +1,18 @@
 import { useState } from "react";
 import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const LoginPage = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
   const navigate = useNavigate();
 
   const fetchLogin = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/auth/login", {
         method: "POST",
@@ -18,15 +23,16 @@ const LoginPage = () => {
       });
       if (response.ok) {
         const data = await response.json();
-        console.log(data);
         localStorage.setItem("token", data.accessToken);
-        navigate("/register");
+        navigate("/home");
         window.location.reload();
       } else {
         throw new Error(`${response.status} - Errore nella fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -34,6 +40,14 @@ const LoginPage = () => {
     e.preventDefault();
     fetchLogin();
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
 
   return (
     <header className="login-background d-flex align-items-center justify-content-end ">

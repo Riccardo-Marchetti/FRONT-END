@@ -1,14 +1,19 @@
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import { Button } from "react-bootstrap";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const UploadProfileImage = () => {
   const inputRef = useRef();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleClick = () => {
     inputRef.current.click();
   };
 
   const changeProfileImage = async () => {
+    setIsLoading(true);
     let file = inputRef.current.files[0];
     if (file) {
       let formData = new FormData();
@@ -26,12 +31,23 @@ const UploadProfileImage = () => {
           const data = await response.json;
           console.log(data);
           window.location.reload();
+        } else {
+          throw new Error(`${response.status} - Error in fetch`);
         }
       } catch (error) {
-        console.log(error);
+        setError("Error in fetch");
+        setIsLoading(false);
       }
     }
   };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
   return (
     <>
       <input
