@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Footer from "./Footer";
 import { Link, useNavigate } from "react-router-dom";
 import ShowFilm from "./ShowTrailer";
+import CarouselPromotions from "./CarouselPromotions";
 
 const HomePage = () => {
   const [film, setFilm] = useState([]);
@@ -49,6 +50,11 @@ const HomePage = () => {
         <MyNavBar />
       </header>
       <main>
+        <Container className="mt-4">
+          <Row>
+            <CarouselPromotions />
+          </Row>
+        </Container>
         <h1 className="text-center px-0 mx-0 mt-3 mb-0">Now in theaters</h1>
         <Container>
           <Row>

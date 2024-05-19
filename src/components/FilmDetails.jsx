@@ -92,7 +92,6 @@ const FilmDetails = () => {
       }
     };
 
-    // fetchFilm();
     fetchShow();
     fetchComment();
   }, [params.filmId]);

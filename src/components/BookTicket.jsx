@@ -6,7 +6,6 @@ import {
   selectCity,
   selectDay,
   selectTime,
-  bookTicket,
   selectShowId,
 } from "../redux/actions/actions";
 import { useNavigate } from "react-router-dom";
@@ -18,7 +17,7 @@ const BookTicket = ({ show, convertiData }) => {
   const selectedCity = useSelector((state) => state.ticket.selectCity);
   const selectedDay = useSelector((state) => state.ticket.selectDay);
   const selectedTime = useSelector((state) => state.ticket.selectTime);
-  const ticketBooked = useSelector((state) => state.ticket.bookTicket);
+  // const ticketBooked = useSelector((state) => state.ticket.bookTicket);
 
   const navigate = useNavigate();
 

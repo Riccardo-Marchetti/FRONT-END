@@ -190,6 +190,27 @@
 .book-but:hover {
   background-color: rgb(48, 132, 228);
 }
+.carousel-indicators {
+  margin-bottom: 0px;
+}
+.carousel-indicators button {
+  border-radius: 50% !important;
+  width: 12px !important;
+  height: 12px !important;
+}
+@media screen and (max-width: 767px) {
+  .carousel1 {
+    display: none !important;
+  }
+}
+@media screen and (max-width: 450px) {
+  .carousel-indicators button {
+    border-radius: 50% !important;
+    width: 8px !important;
+    height: 8px !important;
+    margin-top: 80px !important;
+  }
+}
 
 /* SEAT PAGE */
 .a {

@@ -53,7 +53,7 @@ const MyNavBar = () => {
               navbarScroll
             >
               <Link
-                to="/"
+                to="/home"
                 className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-white"
               >
                 {" "}
