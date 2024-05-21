@@ -83,9 +83,9 @@ const ProfilePage = () => {
             </h6>
           </Col>
         </Col>
-        <Col className="col-12 col-sm-10 col-md-6 col-xl-5 col-xxl-6 mt-3 mt-md-0 tickets-col ms-md-1 ">
-          <div className="d-flex justify-content-center mt-3 ">
-            <h5>My tickets :</h5>
+        <Col className="col-12 col-sm-10 col-md-6   mt-3 mt-md-0 tickets-col ms-md-1 ">
+          <div className="d-flex justify-content-center mt-3 mt-md-2">
+            <h3 className="title-ticket">My tickets :</h3>
           </div>
           {ticket && ticket.length > 0 ? (
             ticket.map((tick, i) => {

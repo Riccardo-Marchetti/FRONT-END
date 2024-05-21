@@ -1,14 +1,19 @@
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import logo from "../assets/LogoNavbar.png";
+import { Link, useNavigate } from "react-router-dom";
+import logo from "../assets/Blue Yellow Futuristic Virtual Technology Blog Banner (3).png";
+import Loading from "./Loading";
+import Error from "./Error";
+import { Dropdown } from "react-bootstrap";
 
 const MyNavBar = () => {
   const [user, setUser] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
   const getUser = async () => {
     try {
       const response = await fetch("http://localhost:3001/user/me", {
@@ -33,6 +38,19 @@ const MyNavBar = () => {
     getUser();
   }, []);
 
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    navigate("/");
+  };
+
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
+
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary">
@@ -56,38 +74,56 @@ const MyNavBar = () => {
                 to="/"
                 className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-black"
               >
-                {" "}
-                Home{" "}
-              </Link>{" "}
+                Home
+              </Link>
               <Link
                 to="/promotions"
                 className="text-decoration-none d-flex align-items-center ms-1 me-4 text-black"
               >
-                {" "}
-                Promotions{" "}
-              </Link>{" "}
+                Promotions
+              </Link>
             </Nav>
-            <Form className="d-flex search-film ">
+            <div className="d-flex align-items-center justify-content-start mb-2 mb-md-0 me-3">
+              <Dropdown>
+                <Dropdown.Toggle
+                  as={Button}
+                  bsPrefix="custom-toggle"
+                  className="rounded-circle ms-md-3 mt-1 mb-1 mb-md-0 mt-md-0 p-0 button-login d-flex align-items-center bg-transparent border-0"
+                >
+                  <img
+                    className="rounded-circle object-fit-cover me-md-2"
+                    src={user.avatar}
+                    style={{ width: "45px", height: "45px" }}
+                    alt="profile-image"
+                  />
+                </Dropdown.Toggle>
+
+                <Dropdown.Menu className="bg-dropdown">
+                  <Dropdown.Item className="text-white" href="/profile">
+                    Profile
+                  </Dropdown.Item>
+                  <Dropdown.Item className="text-white" onClick={handleLogout}>
+                    Logout
+                  </Dropdown.Item>
+                </Dropdown.Menu>
+              </Dropdown>
+            </div>
+            {/* <Form
+              className="d-flex search-film mb-2 mb-md-0 "
+              onSubmit={handleSearch}
+            >
               <Form.Control
                 type="search"
                 placeholder="Search movies..."
                 className="me-2"
                 aria-label="Search"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button variant="outline-success">Search</Button>
-            </Form>
-            <Link to={"/profile"} className="text-decoration-none d-flex   ">
-              <div className="d-flex align-items-center justify-content-start mt-2 mt-md-0 ">
-                <Button className="rounded-circle ms-md-3 mt-1 mb-1 mb-md-0  mt-md-0 p-0  button-login d-flex align-items-center bg-transparent border-0">
-                  <img
-                    className=" rounded-circle object-fit-cover"
-                    src={user.avatar}
-                    style={{ width: "45px", height: "45px" }}
-                    alt="profile-image"
-                  />
-                </Button>
-              </div>
-            </Link>
+              <Button className="text-white border-0 search-but" type="submit">
+                Search
+              </Button>
+            </Form> */}
           </Navbar.Collapse>
         </Container>
       </Navbar>
