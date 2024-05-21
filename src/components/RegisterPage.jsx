@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Button, Col, Row, Form, Container } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const RegisterPage = () => {
   const [email, setEmail] = useState("");
@@ -8,9 +10,12 @@ const RegisterPage = () => {
   const [username, setUsername] = useState("");
   const [name, setName] = useState("");
   const [surname, setSurname] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
   const navigate = useNavigate();
 
   const fetchRegister = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/auth/register", {
         method: "POST",
@@ -27,7 +32,9 @@ const RegisterPage = () => {
         throw new Error(`${response.status} - Errore nella fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -36,8 +43,16 @@ const RegisterPage = () => {
     fetchRegister();
   };
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
+
   return (
-    <header className="c d-flex align-items-center justify-content-end ">
+    <header className="login-background d-flex align-items-center justify-content-end ">
       <Container className="login-container p-4 m-0 ">
         <Row className="d-flex flex-column ">
           <Col className="text-center">

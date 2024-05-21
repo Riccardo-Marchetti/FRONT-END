@@ -15,6 +15,7 @@ const MyNavBar = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const getUser = async () => {
+    setIsLoading(true);
     try {
       const response = await fetch("http://localhost:3001/user/me", {
         headers: {
@@ -26,11 +27,13 @@ const MyNavBar = () => {
         const data = await response.json();
         console.log(data);
         setUser(data);
+        setIsLoading(false);
       } else {
         throw new Error(`${response.status} - Errore nella fetch`);
       }
     } catch (error) {
-      console.log(error);
+      setError("Error in fetch");
+      setIsLoading(false);
     }
   };
 
@@ -51,9 +54,16 @@ const MyNavBar = () => {
     return <Error message={error} />;
   }
 
+  if (isLoading) {
+    return <Loading />;
+  }
+
+  if (error) {
+    return <Error message={error} />;
+  }
   return (
     <>
-      <Navbar expand="md" className="bg-body-tertiary">
+      <Navbar expand="md" className="bg-body-tertiary navbar">
         <Container fluid>
           <Navbar.Brand href="#">
             <img
@@ -71,14 +81,14 @@ const MyNavBar = () => {
               navbarScroll
             >
               <Link
-                to="/"
-                className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-black"
+                to="/home"
+                className="text-decoration-none d-flex align-items-center ms-1 ms-md-3 me-4 text-white"
               >
                 Home
               </Link>
               <Link
                 to="/promotions"
-                className="text-decoration-none d-flex align-items-center ms-1 me-4 text-black"
+                className="text-decoration-none d-flex align-items-center ms-1 me-4 text-white"
               >
                 Promotions
               </Link>
