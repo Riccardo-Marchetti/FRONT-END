@@ -2,6 +2,8 @@ import {
   Button,
   Col,
   Container,
+  Dropdown,
+  DropdownButton,
   FloatingLabel,
   Form,
   Row,
@@ -139,6 +141,10 @@ const FilmDetails = () => {
 
   const handlePostComment = (e) => {
     e.preventDefault();
+    if (description.trim() === "") {
+      alert("The comment field cannot be empty");
+      return;
+    }
     postComment();
   };
 
@@ -154,13 +160,6 @@ const FilmDetails = () => {
     } else {
       return "";
     }
-  }
-  function convertiOra(commentTime) {
-    let date = new Date(commentTime);
-    let hours = date.getHours();
-    let minutes = date.getMinutes();
-    let formattedTime = hours + ":" + (minutes < 10 ? "0" : "") + minutes;
-    return formattedTime;
   }
 
   if (isLoading) {
@@ -188,60 +187,64 @@ const FilmDetails = () => {
           </Row>
         </Container>
 
-        <BookTicket show={show} convertiData={convertiData} />
-        <Row className=" mt-4 col-11 d-flex justify-content-start align-items-center ps-3 ">
-          <Col className="col-12  justify-content-start ">
-            <h3 className="title-book-ticket">Add a new review</h3>
-            <Col className="col-12 col-md-6 col-lg-4">
-              {[...Array(5)].map((star, i) => {
-                const ratingValue = i + 1;
-                return (
-                  <div
-                    key={i}
-                    style={{ display: "inline-block", position: "relative" }}
-                    className="mb-1"
-                  >
-                    <button
-                      type="button"
-                      style={{
-                        background: "transparent",
-                        border: "none",
-                        fontSize: "1.4em",
-                      }}
-                      onClick={() => handleStarClick(ratingValue, 0)}
+        <Container className="comment-cont  px-sm-5  px-xl-0 col-lg-10  col-xxl-8  mt-4 mt-md-5 d-flex flex-column mb-5">
+          <Row className="d-flex justify-content-start align-items-center  ">
+            {/* <Col className="col-12  justify-content-start "> */}
+            <Col className="text-center text-md-start  p-md-0 ms-xl-5 ps-xl-4 ">
+              <h3 className="title-book-ticket mt-3 mt-md-4 ms-xl-3 ms-xxl-4 ">
+                Add a new review
+              </h3>
+              <div className="flex-row ms-xl-2 ms-xxl-3">
+                {[...Array(5)].map((star, i) => {
+                  const ratingValue = i + 1;
+                  return (
+                    <div
+                      key={i}
+                      style={{ display: "inline-block", position: "relative" }}
+                      className="mb-1 "
                     >
-                      {ratingValue <= rating ? (
-                        <i className="fas fa-star"></i>
-                      ) : (
-                        <i className="far fa-star"></i>
-                      )}
-                    </button>
-                    <button
-                      type="button"
-                      style={{
-                        background: "transparent",
-                        border: "none",
-                        position: "absolute",
-                        left: 0,
-                        width: "50%",
-                        overflow: "hidden",
-                        fontSize: "1.4em",
-                      }}
-                      onClick={() => handleStarClick(ratingValue, -0.5)}
-                    >
-                      {ratingValue - 0.5 <= rating ? (
-                        <i className="fas fa-star"></i>
-                      ) : (
-                        <i className="far fa-star"></i>
-                      )}
-                    </button>
-                  </div>
-                );
-              })}
+                      <button
+                        type="button"
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          fontSize: "1.4em",
+                        }}
+                        onClick={() => handleStarClick(ratingValue, 0)}
+                      >
+                        {ratingValue <= rating ? (
+                          <i className="fas fa-star"></i>
+                        ) : (
+                          <i className="far fa-star"></i>
+                        )}
+                      </button>
+                      <button
+                        type="button"
+                        style={{
+                          background: "transparent",
+                          border: "none",
+                          position: "absolute",
+                          left: 0,
+                          width: "50%",
+                          overflow: "hidden",
+                          fontSize: "1.4em",
+                        }}
+                        onClick={() => handleStarClick(ratingValue, -0.5)}
+                      >
+                        {ratingValue - 0.5 <= rating ? (
+                          <i className="fas fa-star"></i>
+                        ) : (
+                          <i className="far fa-star"></i>
+                        )}
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
               <FloatingLabel
                 controlId="floatingTextarea"
                 label="Comments"
-                className="mb-3 mt-1 text-area"
+                className="mb-3 ms-xl-3 ms-xxl-4 mt-2 text-area mx-auto mx-xl-0 mx-md-0"
                 onChange={(e) => setDescription(e.target.value)}
               >
                 <Form.Control
@@ -250,20 +253,26 @@ const FilmDetails = () => {
                 />
               </FloatingLabel>
               <Button
-                className="mb-3 add-comment-but"
+                className="mb-3 add-comment-but ms-xl-3 ms-xxl-4"
                 onClick={handlePostComment}
+                disabled={description.trim() === ""}
               >
                 ADD COMMENT
               </Button>
             </Col>
-            <h3 className="mb-4 title-book-ticket">Comments:</h3>
+            <h3 className="mb-3 mt-3 title-book-ticket text-center">Review:</h3>
             {comments.length === 0 ? (
-              <p>No comments for this movie yet.</p>
+              <p className="text-white text-center">
+                No reviews for this movie yet.
+              </p>
             ) : (
               (showAll ? comments : comments.slice(0, 5)).map((comment, i) => {
                 return (
-                  <Row key={i} className="mb-2 comment-row py-3 mt-3">
-                    <Col className="col-1  ps-4 pe-3 pe-sm-5 col-img-prof">
+                  <Row
+                    key={i}
+                    className="mb-2 col-xl-10 mx-auto comment-row  py-3 mt-3"
+                  >
+                    <Col className="col-1  ps-0 pe-lg-0  col-img-prof">
                       <img
                         src={comment.user.avatar}
                         alt="user-avatar"
@@ -271,56 +280,56 @@ const FilmDetails = () => {
                         style={{ width: "45px", height: "45px" }}
                       />
                     </Col>
-                    <Col className="col-10 ps-5 ps-sm-4 ps-md-3 ps-lg-1 col-desc-comment">
-                      <h6 className=" d-sm-flex mb-1 text-white">
-                        {comment.user.username}
-                        <span className="fw-normal ms-2 date-comment text-white ">
-                          ({convertiData(comment.commentDay)} -{" "}
-                          {convertiOra(comment.commentTime)})
-                        </span>
-                        <Button
-                          style={{
-                            backgroundColor: "red",
-                            width: "20px",
-                            height: "20px",
-                          }}
-                          className="border-0 p-0 d-flex align-items-center  justify-content-center ms-2 mt-1 mt-sm-0 delete-but"
+                    <Col className="col-10   ps-4 ps-md-3 ps-lg-0 ps-xl-2 ps-xxl-4">
+                      <div className="d-flex justify-content-between align-items-center  ">
+                        <h6 className=" d-sm-flex mb-0  text-white">
+                          {comment.user.username}
+                        </h6>
+                        <Button className="bg-transparent border-0 "></Button>
+                        <DropdownButton
+                          id="dropdown-comment"
+                          title={<i className="fas fa-ellipsis-h"></i>}
                         >
-                          <i
-                            className="fas fa-trash-alt delete-icon"
-                            style={{
-                              color: "white",
-                              cursor: "pointer",
-                              fontSize: "10px",
-                            }}
+                          <Dropdown.Item
                             onClick={() => deleteMyComment(comment.id)}
-                          ></i>
-                        </Button>
-                      </h6>
-                      <span className="fw-normal  date-comment d-flex align-items-center d-sm-none text-white">
-                        ({convertiData(comment.commentDay)} -{" "}
-                        {convertiOra(comment.commentTime)})
-                        <Button
-                          style={{
-                            backgroundColor: "red",
-                            width: "20px",
-                            height: "20px",
-                          }}
-                          className="border-0 p-0 d-flex align-items-center  justify-content-center ms-2 mt-1 mt-sm-0"
-                        >
-                          <i
-                            className="fas fa-trash-alt"
-                            style={{
-                              color: "white",
-                              cursor: "pointer",
-                              fontSize: "10px",
-                            }}
-                            onClick={() => deleteMyComment(comment.id)}
-                          ></i>
-                        </Button>
-                      </span>
+                          >
+                            <i className="fas fa-trash-alt me-1"></i> Delete
+                            comment
+                          </Dropdown.Item>
+                        </DropdownButton>
+                      </div>
 
-                      <p className="title-book-ticket">{comment.description}</p>
+                      <div className="mb-2">
+                        {[...Array(5)].map((star, i) => {
+                          const ratingValue = i + 1;
+                          const isHalfStar =
+                            comment.rating === ratingValue - 0.5;
+                          return (
+                            <i
+                              key={i}
+                              className={`${
+                                isHalfStar
+                                  ? "fas fa-star-half-alt"
+                                  : ratingValue <= comment.rating
+                                  ? "fas fa-star"
+                                  : "far fa-star"
+                              }`}
+                              style={{
+                                color: "#ffd60a",
+                                fontSize: "13px",
+                                marginRight: "2px",
+                              }}
+                            ></i>
+                          );
+                        })}
+                        <span className="fw-normal ms-1  date-comment footer-text-color ">
+                          ({convertiData(comment.commentDay)})
+                        </span>
+                      </div>
+
+                      <p className="text-white description">
+                        {comment.description}
+                      </p>
                     </Col>
                   </Row>
                 );
@@ -336,8 +345,11 @@ const FilmDetails = () => {
                 {showAll ? "Show less" : "Show all"}
               </p>
             )}
-          </Col>
-        </Row>
+            {/* </Col> */}
+
+            <BookTicket show={show} convertiData={convertiData} />
+          </Row>
+        </Container>
       </main>
       <footer className="mt-5">
         <Footer />

@@ -52,11 +52,11 @@ const RegisterPage = () => {
   }
 
   return (
-    <header className="login-background d-flex align-items-center justify-content-end ">
-      <Container className="login-container p-4 m-0 ">
-        <Row className="d-flex flex-column ">
+    <header className="login d-flex flex-column  justify-content-center align-items-center">
+      <Container className="login-container p-0 col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 col-xxl-4 d-flex justify-content-center  text-white">
+        <Row className="d-flex flex-column align-items-center col-12 col-md-11 col-xxl-10 ">
           <Col className="text-center">
-            <h4 className="mb-3 fw-bold ">Register</h4>
+            <h2 className="mb-3 fw-bold mt-4">Register</h2>
             <p>
               Are you already registered?{" "}
               <Link to="/" className="text-decoration-none ">
@@ -67,8 +67,8 @@ const RegisterPage = () => {
             </p>
           </Col>
 
-          <Col>
-            <Form className="form">
+          <Col className="col-9 col-sm-9 col-md-8 ">
+            <Form className="form mb-4">
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -122,7 +122,7 @@ const RegisterPage = () => {
               <Button
                 variant="primary"
                 type="submit"
-                className="col-12"
+                className="login-but col-12 mb-1 mt-1"
                 onClick={handleRegister}
               >
                 Register

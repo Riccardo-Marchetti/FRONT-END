@@ -9,6 +9,8 @@ import HomePage from "./components/HomePage";
 import FilmDetails from "./components/FilmDetails";
 import BookSeat from "./components/BookSeat";
 import Promotions from "./components/Promotions";
+import FilmComingSoonDetails from "./components/FilmComingSoonDetails";
+import AdminPage from "./components/AdminPage";
 
 function App() {
   return (
@@ -21,7 +23,12 @@ function App() {
           <Route path="/home" element={<HomePage />} />
           <Route path="/promotions" element={<Promotions />} />
           <Route path="/movie-details/:filmId" element={<FilmDetails />} />
+          <Route
+            path="/movie-coming-soon-details/:filmId"
+            element={<FilmComingSoonDetails />}
+          />
           <Route path="/book-seat" element={<BookSeat />} />
+          <Route path="/admin" element={<AdminPage />} />
         </Routes>
       </BrowserRouter>
     </>

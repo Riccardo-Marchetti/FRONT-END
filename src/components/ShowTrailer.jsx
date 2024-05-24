@@ -10,6 +10,7 @@ const ShowFilm = ({ film, show, handleClose }) => {
           paddingBottom: "56.25%",
           position: "relative",
         }}
+        className="trailer"
       >
         <iframe
           style={{

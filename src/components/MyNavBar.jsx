@@ -7,7 +7,7 @@ import { Link, useNavigate } from "react-router-dom";
 import logo from "../assets/Blue Yellow Futuristic Virtual Technology Blog Banner (3).png";
 import Loading from "./Loading";
 import Error from "./Error";
-import { Dropdown } from "react-bootstrap";
+import { Dropdown, Form } from "react-bootstrap";
 
 const MyNavBar = () => {
   const [user, setUser] = useState([]);
@@ -109,31 +109,32 @@ const MyNavBar = () => {
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu className="bg-dropdown">
-                  <Dropdown.Item className="text-white" href="/profile">
+                  <Dropdown.Item
+                    className="text-white bg-dropdown"
+                    href="/profile"
+                  >
                     Profile
                   </Dropdown.Item>
-                  <Dropdown.Item className="text-white" onClick={handleLogout}>
+                  <Dropdown.Item
+                    className="text-white bg-dropdown"
+                    onClick={handleLogout}
+                  >
                     Logout
                   </Dropdown.Item>
                 </Dropdown.Menu>
               </Dropdown>
             </div>
-            {/* <Form
-              className="d-flex search-film mb-2 mb-md-0 "
-              onSubmit={handleSearch}
-            >
+            <Form className="d-flex search-film mb-2 mb-md-0">
               <Form.Control
                 type="search"
                 placeholder="Search movies..."
-                className="me-2"
+                className="me-2 "
                 aria-label="Search"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button className="text-white border-0 search-but" type="submit">
+              <Button variant="outline-success" className="search-button">
                 Search
               </Button>
-            </Form> */}
+            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>

@@ -23,7 +23,7 @@ const FilmCoverDetails = ({ show, convertiData }) => {
         <img
           src={show[0].film.cover}
           alt={show[0].film.title}
-          className="img-fluid fadeIn"
+          className="img-fluid fadeIn cover-img"
           style={{ height: "450px" }}
         />
       </Col>

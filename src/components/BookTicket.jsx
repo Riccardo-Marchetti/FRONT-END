@@ -1,6 +1,13 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import { Button, Col, Dropdown, DropdownButton, Row } from "react-bootstrap";
+import {
+  Alert,
+  Button,
+  Col,
+  Dropdown,
+  DropdownButton,
+  Row,
+} from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import {
   selectCinema,
@@ -82,70 +89,99 @@ const BookTicket = ({ show }) => {
   return (
     <>
       <Row>
-        <Col className="ms-3  ">
-          <h3 className="title-book-ticket my-4 text-center">
+        <Col
+          className=" d-flex flex-column  align-items-center  React from 'react'
+        import renderer from 'react-test-renderer'
+        
+        import { BookTicket } from '../BookTicket'
+        
+        describe('<BookTicket />', () => {
+          const defaultProps = {}
+          const wrapper = renderer.create(<BookTicket {...defaultProps} />)
+        
+          test('render', () => {
+            expect(wrapper).toMatchSnapshot()
+          })
+        })"
+        >
+          <h3 className="title-book-ticket mt-4 mb-3 text-center">
             Book your show now
           </h3>
           <DropdownButton
-            id="dropdown-cinema"
+            id="dropdown-details"
             title={selectedCinema || "Select cinema"}
-            className="mb-2"
+            className="mb-2 "
           >
             {uniqueCinemas.map((cinema, index) => (
               <Dropdown.Item
                 key={index}
                 onClick={() => dispatch(selectCinema(cinema))}
               >
-                {cinema}
+                <p className="m-0 p-0">{cinema}</p>
               </Dropdown.Item>
             ))}
           </DropdownButton>
           <DropdownButton
-            id="dropdown-city"
+            id="dropdown-details"
             title={selectedCity || "Select city"}
-            className="mb-2"
+            className="mb-2 "
+            disabled={!selectedCinema}
           >
             {uniqueCities.map((city, index) => (
               <Dropdown.Item
                 key={index}
                 onClick={() => dispatch(selectCity(city))}
               >
-                {city}
+                <p className="m-0 p-0"> {city}</p>
               </Dropdown.Item>
             ))}
           </DropdownButton>
           <DropdownButton
-            id="dropdown-day"
+            id="dropdown-details"
             title={selectedDay || "Select show day"}
-            className="mb-2"
+            className="mb-2 "
+            disabled={!selectedCity}
           >
             {uniqueDates.map((date, index) => (
               <Dropdown.Item
                 key={index}
                 onClick={() => dispatch(selectDay(date))}
               >
-                {date}
+                <p className="m-0 p-0">{date}</p>
               </Dropdown.Item>
             ))}
           </DropdownButton>
           <DropdownButton
-            id="dropdown-time"
+            id="dropdown-details"
             title={selectedTime || "Select show time"}
-            className="mb-2"
+            className="mb-2 "
+            disabled={!selectedDay}
           >
             {uniqueTimes.map((time, index) => (
               <Dropdown.Item
                 key={index}
                 onClick={() => dispatch(selectTime(time))}
               >
-                {time}
+                <p className="m-0 p-0">{time}</p>
               </Dropdown.Item>
             ))}
           </DropdownButton>
-          <Button onClick={handleNavigate}>Book ticket</Button>
+          <Button
+            onClick={handleNavigate}
+            disabled={
+              !selectedCinema || !selectedCity || !selectedDay || !selectedTime
+            }
+            className="book-ticket-but mb-3 mt-1"
+          >
+            Book ticket
+          </Button>
+          {errorMessage && (
+            <Alert variant="danger" className=" alert-booking">
+              {errorMessage}
+            </Alert>
+          )}
         </Col>
       </Row>
-      {errorMessage && <p>{errorMessage}</p>}
     </>
   );
 };

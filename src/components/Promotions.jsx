@@ -14,7 +14,7 @@ const Promotions = () => {
         <MyNavBar />
       </header>
       <main>
-        <Container className="mt-3 promotions-container">
+        <Container className="mt-4 promotions-container">
           <Row className="justify-content-center align-items-center">
             <Col className="col-12 col-lg-11   m-0 p-0">
               <img

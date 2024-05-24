@@ -2,14 +2,15 @@ import { Button, Col, Container, Row } from "react-bootstrap";
 import MyNavBar from "./MyNavBar";
 import { useEffect, useState } from "react";
 import Footer from "./Footer";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import ShowFilm from "./ShowTrailer";
 import CarouselPromotions from "./CarouselPromotions";
 import Loading from "./Loading";
 import Error from "./Error";
 
 const HomePage = () => {
-  const [film, setFilm] = useState([]);
+  const [inTheaters, setInTheaters] = useState([]);
+  const [comingSoon, setComingSoon] = useState([]);
   const [selectedFilm, setSelectedFilm] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
@@ -18,30 +19,47 @@ const HomePage = () => {
   const handleClose = () => setSelectedFilm(null);
   const handleShow = (film) => setSelectedFilm(film);
 
-  const getFilm = async () => {
-    setIsLoading(true);
+  const fetchFilms = async (filmState) => {
     try {
-      const response = await fetch("http://localhost:3001/film", {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
-        },
-      });
+      const response = await fetch(
+        `http://localhost:3001/film/filmState?filmState=${filmState}`,
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      );
       if (response.ok) {
         const data = await response.json();
-        setFilm(data.content);
-        setIsLoading(false);
+        return data;
       } else {
         throw new Error(`${response.status} - Error in fetch`);
       }
     } catch (error) {
-      setError("Error in fetch");
+      throw new Error("Error in fetch");
+    }
+  };
+
+  const getFilm = async () => {
+    setIsLoading(true);
+    try {
+      const inTheatersData = await fetchFilms("INTHEATERS");
+      const comingSoonData = await fetchFilms("COMINGSOON");
+      setInTheaters(inTheatersData);
+      setComingSoon(comingSoonData);
+      setIsLoading(false);
+    } catch (error) {
+      setError(error.message);
       setIsLoading(false);
     }
   };
 
   const handleButtonClick = (filmId) => {
     navigate(`/movie-details/${filmId}`);
+  };
+  const showDetails = (filmId) => {
+    navigate(`/movie-coming-soon-details/${filmId}`);
   };
 
   useEffect(() => {
@@ -72,7 +90,7 @@ const HomePage = () => {
         </h1>
         <Container>
           <Row>
-            {film.slice(0, 8).map((film, i) => (
+            {inTheaters.map((film, i) => (
               <Col
                 key={i}
                 className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2 d-flex  justify-content-center gy-4 mx-0 px-0 film-col"
@@ -120,24 +138,23 @@ const HomePage = () => {
             >
               Coming soon
             </h1>
-            {film.slice(-8).map((film, i) => (
+            {comingSoon.map((film, i) => (
               <Col
                 key={i}
                 className="col-12 col-sm-6 col-md-4 col-lg-3 col-xxl-2 d-flex  justify-content-center gy-3 mx-0 px-0 film-col"
                 style={{ height: "300px", position: "relative" }}
               >
-                <Link to={`/movie-details/${film.id}`} key={film.id}>
-                  <img
-                    src={film.cover}
-                    alt="cover-film"
-                    style={{
-                      height: "100%",
-                      width: "200px",
-                      objectFit: "cover",
-                      borderRadius: "10px",
-                    }}
-                  />
-                </Link>
+                <img
+                  src={film.cover}
+                  alt="cover-film"
+                  style={{
+                    height: "100%",
+                    width: "200px",
+                    objectFit: "cover",
+                    borderRadius: "10px",
+                  }}
+                />
+
                 <div className="film-buttons col-xxl-9 col-xl-7 col-lg-8 col-md-8 col-sm-9 px-sm-3 px-md-0">
                   <Button
                     variant="primary"
@@ -153,6 +170,13 @@ const HomePage = () => {
                       handleClose={handleClose}
                     />
                   )}
+                  <Button
+                    variant="primary"
+                    className="m-1 book-but"
+                    onClick={() => showDetails(film.id)}
+                  >
+                    SHOW DETAILS
+                  </Button>
                 </div>
               </Col>
             ))}
