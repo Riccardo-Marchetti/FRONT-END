@@ -53,14 +53,6 @@ const MyNavBar = () => {
   if (error) {
     return <Error message={error} />;
   }
-
-  if (isLoading) {
-    return <Loading />;
-  }
-
-  if (error) {
-    return <Error message={error} />;
-  }
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary navbar">
@@ -115,6 +107,14 @@ const MyNavBar = () => {
                   >
                     Profile
                   </Dropdown.Item>
+                  {["ADMIN", "MODERATOR"].includes(user.role) && (
+                    <Dropdown.Item
+                      className="text-white bg-dropdown"
+                      href="/admin"
+                    >
+                      Admin
+                    </Dropdown.Item>
+                  )}
                   <Dropdown.Item
                     className="text-white bg-dropdown"
                     onClick={handleLogout}

@@ -32,9 +32,7 @@ const FilmCoverDetails = ({ show, convertiData }) => {
           {show[0].film.title}
           <span className="fs-6 fw-normal ms-3">
             <i className="fas fa-star"></i>{" "}
-            {show && show[0].film.rating
-              ? show[0].film.rating.toFixed(1)
-              : "Loading..."}
+            {show && show[0].film.rating ? show[0].film.rating.toFixed(1) : "0"}
             /5
           </span>
         </h1>

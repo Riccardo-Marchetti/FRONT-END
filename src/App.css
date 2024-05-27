@@ -11,9 +11,8 @@ body {
 }
 
 .login-container {
-  /* background-color: #0d0e0f; */
   background-color: #141618;
-  border-radius: 20px;
+  border-radius: 10px;
 }
 .login-but {
   background-color: #ffd60a;

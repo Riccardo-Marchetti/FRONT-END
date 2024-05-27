@@ -88,22 +88,8 @@ const BookTicket = ({ show }) => {
 
   return (
     <>
-      <Row>
-        <Col
-          className=" d-flex flex-column  align-items-center  React from 'react'
-        import renderer from 'react-test-renderer'
-        
-        import { BookTicket } from '../BookTicket'
-        
-        describe('<BookTicket />', () => {
-          const defaultProps = {}
-          const wrapper = renderer.create(<BookTicket {...defaultProps} />)
-        
-          test('render', () => {
-            expect(wrapper).toMatchSnapshot()
-          })
-        })"
-        >
+      <Row className="p-0">
+        <Col className=" d-flex flex-column align-items-center p-0 m-0  ">
           <h3 className="title-book-ticket mt-4 mb-3 text-center">
             Book your show now
           </h3>

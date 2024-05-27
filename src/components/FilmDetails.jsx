@@ -281,11 +281,11 @@ const FilmDetails = () => {
                       />
                     </Col>
                     <Col className="col-10   ps-4 ps-md-3 ps-lg-0 ps-xl-2 ps-xxl-4">
-                      <div className="d-flex justify-content-between align-items-center  ">
+                      <div className="d-flex  align-items-center justify-content-between ">
                         <h6 className=" d-sm-flex mb-0  text-white">
                           {comment.user.username}
                         </h6>
-                        <Button className="bg-transparent border-0 "></Button>
+                        {/* <Button className="bg-transparent border-0 "></Button> */}
                         <DropdownButton
                           id="dropdown-comment"
                           title={<i className="fas fa-ellipsis-h"></i>}

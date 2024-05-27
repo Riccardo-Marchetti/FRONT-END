@@ -145,7 +145,9 @@ const ProfilePage = () => {
                   })
                 ) : (
                   <div className="d-flex justify-content-center align-items-center ">
-                    <p>You haven&apos;t booked any tickets</p>
+                    <p className="text-white">
+                      You haven&apos;t booked any tickets
+                    </p>
                   </div>
                 )}
               </Row>
