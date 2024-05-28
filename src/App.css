@@ -354,6 +354,14 @@ body {
   padding: 0px;
 }
 
+.delete-dropdown .dropdown-menu {
+  background-color: #141618;
+}
+.delete-dropdown .dropdown-item:hover {
+  background-color: #141618;
+  opacity: 0.8;
+}
+
 .comment-cont {
   background-color: #222222;
 }

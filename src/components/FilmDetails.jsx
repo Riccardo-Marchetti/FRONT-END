@@ -191,7 +191,7 @@ const FilmDetails = () => {
               minHeight: "60vh",
             }}
           >
-            <FilmCoverDetails show={show} convertiData={convertData} />
+            <FilmCoverDetails show={show} convertData={convertData} />
           </Row>
         </Container>
 
@@ -287,12 +287,17 @@ const FilmDetails = () => {
                         <DropdownButton
                           id="dropdown-comment"
                           title={<i className="fas fa-ellipsis-h "></i>}
+                          className="delete-dropdown"
                         >
                           <Dropdown.Item
                             onClick={() => deleteMyComment(comment.id)}
+                            className="text-white"
                           >
-                            <i className="fas fa-trash-alt me-1"></i> Delete
-                            comment
+                            <i
+                              className="fas fa-trash-alt me-2"
+                              style={{ color: "white" }}
+                            ></i>{" "}
+                            Delete comment
                           </Dropdown.Item>
                         </DropdownButton>
                       </div>
