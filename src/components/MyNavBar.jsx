@@ -14,6 +14,8 @@ const MyNavBar = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+
+  // Method to fetch user data
   const getUser = async () => {
     setIsLoading(true);
     try {
@@ -37,22 +39,27 @@ const MyNavBar = () => {
     }
   };
 
+  // Fetch user data on component mount
   useEffect(() => {
     getUser();
   }, []);
 
+  // Method to handle user logout
   const handleLogout = () => {
     localStorage.removeItem("token");
     navigate("/");
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <>
       <Navbar expand="md" className="bg-body-tertiary navbar">
@@ -60,7 +67,7 @@ const MyNavBar = () => {
           <Navbar.Brand href="#">
             <img
               src={logo}
-              style={{ width: "55px", height: "55px" }}
+              style={{ width: "65px", height: "65px" }}
               className="rounded-circle object-fit-cover ms-2"
               alt="LOGO"
             />

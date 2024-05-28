@@ -27,6 +27,7 @@ const FilmDetails = () => {
   const [error, setError] = useState("");
   const params = useParams();
 
+  // Function to delete a user's comment
   const deleteMyComment = async (commentId) => {
     setIsLoading(true);
     try {
@@ -51,6 +52,7 @@ const FilmDetails = () => {
     }
   };
 
+  // Function to post a new comment
   const postComment = async () => {
     setIsLoading(true);
     try {
@@ -78,6 +80,7 @@ const FilmDetails = () => {
     }
   };
 
+  // Fetching show details and comments when component mounts
   useEffect(() => {
     const fetchShow = async () => {
       setIsLoading(true);
@@ -135,10 +138,12 @@ const FilmDetails = () => {
     fetchComment();
   }, [params.filmId]);
 
+  // Function to handle star click for rating
   const handleStarClick = (value, half) => {
     setRating(value + half);
   };
 
+  // Function to handle posting a comment
   const handlePostComment = (e) => {
     e.preventDefault();
     if (description.trim() === "") {
@@ -148,24 +153,27 @@ const FilmDetails = () => {
     postComment();
   };
 
-  function convertiData(dataBackend) {
+  // Function to convert date format from YYYY-MM-DD to DD-MM-YYYY
+  function convertData(dataBackend) {
     if (dataBackend) {
-      let partiData = dataBackend.split("-");
-      let anno = partiData[0];
-      let mese = partiData[1];
-      let giorno = partiData[2];
+      let data = dataBackend.split("-");
+      let year = data[0];
+      let month = data[1];
+      let day = data[2];
 
-      let dataConvertita = giorno + "-" + mese + "-" + anno;
+      let dataConvertita = day + "-" + month + "-" + year;
       return dataConvertita;
     } else {
       return "";
     }
   }
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
@@ -183,112 +191,102 @@ const FilmDetails = () => {
               minHeight: "60vh",
             }}
           >
-            <FilmCoverDetails show={show} convertiData={convertiData} />
+            <FilmCoverDetails show={show} convertiData={convertData} />
           </Row>
         </Container>
 
-        <Container className="comment-cont  px-sm-5  px-xl-0 col-lg-10  col-xxl-8  mt-4 mt-md-5 d-flex flex-column mb-5">
-          <Row className="d-flex justify-content-start align-items-center  ">
-            {/* <Col className="col-12  justify-content-start "> */}
-            <Col className="text-center text-md-start  p-md-0 ms-xl-5 ps-xl-4 ">
-              <h3 className="title-book-ticket mt-3 mt-md-4 ms-xl-3 ms-xxl-4 ">
-                Add a new review
-              </h3>
-              <div className="flex-row ms-xl-2 ms-xxl-3">
-                {[...Array(5)].map((star, i) => {
-                  const ratingValue = i + 1;
-                  return (
-                    <div
-                      key={i}
-                      style={{ display: "inline-block", position: "relative" }}
-                      className="mb-1 "
+        <Row className="ms-3 me-0 mt-5 ms-md-0 me-md-0 justify-content-md-center">
+          <Col className="px-0 col-12 col-md-6">
+            <h3 className="title-book-ticket">Add a new review</h3>
+            <div className="mb-2">
+              {[...Array(5)].map((star, i) => {
+                const ratingValue = i + 1;
+                return (
+                  <div
+                    key={i}
+                    style={{ display: "inline-block", position: "relative" }}
+                  >
+                    <button
+                      type="button"
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        fontSize: "1.4em",
+                      }}
+                      onClick={() => handleStarClick(ratingValue, 0)}
                     >
-                      <button
-                        type="button"
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          fontSize: "1.4em",
-                        }}
-                        onClick={() => handleStarClick(ratingValue, 0)}
-                      >
-                        {ratingValue <= rating ? (
-                          <i className="fas fa-star"></i>
-                        ) : (
-                          <i className="far fa-star"></i>
-                        )}
-                      </button>
-                      <button
-                        type="button"
-                        style={{
-                          background: "transparent",
-                          border: "none",
-                          position: "absolute",
-                          left: 0,
-                          width: "50%",
-                          overflow: "hidden",
-                          fontSize: "1.4em",
-                        }}
-                        onClick={() => handleStarClick(ratingValue, -0.5)}
-                      >
-                        {ratingValue - 0.5 <= rating ? (
-                          <i className="fas fa-star"></i>
-                        ) : (
-                          <i className="far fa-star"></i>
-                        )}
-                      </button>
-                    </div>
-                  );
-                })}
-              </div>
-              <FloatingLabel
-                controlId="floatingTextarea"
-                label="Comments"
-                className="mb-3 ms-xl-3 ms-xxl-4 mt-2 text-area mx-auto mx-xl-0 mx-md-0"
-                onChange={(e) => setDescription(e.target.value)}
-              >
-                <Form.Control
-                  as="textarea"
-                  placeholder="Leave a comment here"
-                />
-              </FloatingLabel>
-              <Button
-                className="mb-3 add-comment-but ms-xl-3 ms-xxl-4"
-                onClick={handlePostComment}
-                disabled={description.trim() === ""}
-              >
-                ADD COMMENT
-              </Button>
-            </Col>
-            <h3 className="mb-3 mt-3 title-book-ticket text-center">Review:</h3>
+                      {ratingValue <= rating ? (
+                        <i className="fas fa-star"></i>
+                      ) : (
+                        <i className="far fa-star"></i>
+                      )}
+                    </button>
+                    <button
+                      type="button"
+                      style={{
+                        background: "transparent",
+                        border: "none",
+                        position: "absolute",
+                        left: 0,
+                        width: "50%",
+                        overflow: "hidden",
+                        fontSize: "1.4em",
+                      }}
+                      onClick={() => handleStarClick(ratingValue, -0.5)}
+                    >
+                      {ratingValue - 0.5 <= rating ? (
+                        <i className="fas fa-star"></i>
+                      ) : (
+                        <i className="far fa-star"></i>
+                      )}
+                    </button>
+                  </div>
+                );
+              })}
+            </div>
+            <FloatingLabel
+              controlId="floatingTextarea"
+              label="Comments"
+              className="text-area"
+              onChange={(e) => setDescription(e.target.value)}
+            >
+              <Form.Control as="textarea" placeholder="Leave a comment here" />
+            </FloatingLabel>
+            <Button
+              className="add-comment-but mt-3 mb-2"
+              onClick={handlePostComment}
+              disabled={description.trim() === ""}
+            >
+              Add comment
+            </Button>
+          </Col>
+        </Row>
+        <Row className="ms-3 me-3 ms-md-0 me-md-0 justify-content-md-center">
+          <Col className="px-0 comment-col mt-3 col-12 col-md-6">
+            <h3 className="title-book-ticket mt-3 mb-3 ">Review:</h3>
             {comments.length === 0 ? (
-              <p className="text-white text-center">
-                No reviews for this movie yet.
-              </p>
+              <p className="text-white mb-4">No reviews for this movie yet.</p>
             ) : (
               (showAll ? comments : comments.slice(0, 5)).map((comment, i) => {
                 return (
-                  <Row
-                    key={i}
-                    className="mb-2 col-xl-10 mx-auto comment-row  py-3 mt-3"
-                  >
-                    <Col className="col-1  ps-0 pe-lg-0  col-img-prof">
+                  <Row key={i} className="comment-row mb-4 pt-2 ms-0 me-0">
+                    <Col className="col-img-prof pt-2 px-0 col-1 col-md-2 col-lg-1">
                       <img
                         src={comment.user.avatar}
                         alt="user-avatar"
-                        className="rounded-circle object-fit-cover"
+                        className="rounded-circle object-fit-cover ms-2 ms-sm-3 ms-xxl-3"
                         style={{ width: "45px", height: "45px" }}
                       />
                     </Col>
-                    <Col className="col-10   ps-4 ps-md-3 ps-lg-0 ps-xl-2 ps-xxl-4">
-                      <div className="d-flex  align-items-center justify-content-between ">
-                        <h6 className=" d-sm-flex mb-0  text-white">
+                    <Col className="col-10 pt-2 col-md-9 col-lg-10 ms-4 ms-sm-3 ms-md-0 ms-lg-4 ms-xl-3 ms-xxl-4">
+                      <div className="d-flex justify-content-between align-items-center">
+                        <h6 className="text-white m-0">
                           {comment.user.username}
                         </h6>
-                        {/* <Button className="bg-transparent border-0 "></Button> */}
+
                         <DropdownButton
                           id="dropdown-comment"
-                          title={<i className="fas fa-ellipsis-h"></i>}
+                          title={<i className="fas fa-ellipsis-h "></i>}
                         >
                           <Dropdown.Item
                             onClick={() => deleteMyComment(comment.id)}
@@ -323,11 +321,11 @@ const FilmDetails = () => {
                           );
                         })}
                         <span className="fw-normal ms-1  date-comment footer-text-color ">
-                          ({convertiData(comment.commentDay)})
+                          ({convertData(comment.commentDay)})
                         </span>
                       </div>
 
-                      <p className="text-white description">
+                      <p className="text-white description pt-1">
                         {comment.description}
                       </p>
                     </Col>
@@ -345,12 +343,12 @@ const FilmDetails = () => {
                 {showAll ? "Show less" : "Show all"}
               </p>
             )}
-            {/* </Col> */}
+          </Col>
+        </Row>
 
-            <BookTicket show={show} convertiData={convertiData} />
-          </Row>
-        </Container>
+        <BookTicket show={show} convertiData={convertData} />
       </main>
+
       <footer className="mt-5">
         <Footer />
       </footer>

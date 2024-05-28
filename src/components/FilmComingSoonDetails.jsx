@@ -4,30 +4,34 @@ import { Col, Container, Row } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import MyNavBar from "./MyNavBar";
 import Footer from "./Footer";
+import Loading from "./Loading";
+import Error from "./Error";
 
 const FilmComingSoonDetails = () => {
   const [film, setFilm] = useState([]);
-  const [isLoading, setIsLoading] = useState([]);
+  const [loading, setLoading] = useState([]);
   const [error, setError] = useState([]);
   const params = useParams();
 
-  function convertiData(dataBackend) {
+  // Function to convert date format from YYYY-MM-DD to DD-MM-YYYY
+  function convertData(dataBackend) {
     if (dataBackend) {
-      let partiData = dataBackend.split("-");
-      let anno = partiData[0];
-      let mese = partiData[1];
-      let giorno = partiData[2];
+      let data = dataBackend.split("-");
+      let year = data[0];
+      let month = data[1];
+      let day = data[2];
 
-      let dataConvertita = giorno + "-" + mese + "-" + anno;
+      let dataConvertita = day + "-" + month + "-" + year;
       return dataConvertita;
     } else {
       return "";
     }
   }
 
+  // Effect to fetch film details based on the filmId parameter
   useEffect(() => {
     const fetchFilm = async () => {
-      setIsLoading(true);
+      setLoading(true);
       try {
         const response = await fetch(
           `http://localhost:3001/film/${params.filmId}`,
@@ -42,18 +46,28 @@ const FilmComingSoonDetails = () => {
           const data = await response.json();
           console.log(data);
           setFilm(data);
-          setIsLoading(false);
+          setLoading(false);
         } else {
           throw new Error(`${response.status} - Error in fetch`);
         }
       } catch (error) {
         setError("Error in fetch");
-        setIsLoading(false);
+        setLoading(false);
       }
     };
 
     fetchFilm();
   }, [params.filmId]);
+
+  // If the data is still loading, show the loading component
+  if (loading) {
+    return <Loading />;
+  }
+
+  // If there is an error, show the error component
+  if (error) {
+    return <Error message={error} />;
+  }
 
   return (
     <>
@@ -95,7 +109,7 @@ const FilmComingSoonDetails = () => {
                   <strong>Duration:</strong> {film.duration} min
                 </p>
                 <p className="text-white fadeIn">
-                  <strong>Exit date:</strong> {convertiData(film.exitDate)}
+                  <strong>Exit date:</strong> {convertData(film.exitDate)}
                 </p>
                 <p className="text-white fadeIn">
                   <strong>Director:</strong> {film.director}

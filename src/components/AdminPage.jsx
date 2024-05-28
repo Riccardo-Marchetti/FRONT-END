@@ -14,6 +14,7 @@ const AdminPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
+  // Function to fetch the current user's information
   const getUser = async () => {
     setIsLoading(true);
     try {
@@ -37,21 +38,28 @@ const AdminPage = () => {
     }
   };
 
+  // useEffect to fetch user information when the component mounts
   useEffect(() => {
     getUser();
   }, []);
+
+  // useEffect to navigate to home if the user is not an admin or moderator
   useEffect(() => {
     if (userRole && !["ADMIN", "MODERATOR"].includes(userRole)) {
       navigate("/home");
     }
   }, [userRole, navigate]);
+
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <>
       <header>

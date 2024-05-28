@@ -10,6 +10,7 @@ export const DESELECT_SEAT = "DESELECT_SEAT";
 export const SELECT_SHOW_ID = "SELECT_SHOW_ID";
 export const SELECT_CITY = "SELECT_CITY";
 
+// Action creators
 export const selectCinema = (cinema) => {
   return {
     type: SELECT_CINEMA,

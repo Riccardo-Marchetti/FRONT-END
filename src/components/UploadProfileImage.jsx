@@ -8,10 +8,12 @@ const UploadProfileImage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
+  // Function to trigger file input click
   const handleClick = () => {
     inputRef.current.click();
   };
 
+  // Function to handle profile image change
   const changeProfileImage = async () => {
     setIsLoading(true);
     let file = inputRef.current.files[0];
@@ -41,13 +43,16 @@ const UploadProfileImage = () => {
     }
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <>
       <input

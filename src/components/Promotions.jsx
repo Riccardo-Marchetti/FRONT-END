@@ -7,6 +7,7 @@ import image3 from "../assets/CarouselImage5.png";
 import image4 from "../assets/CarouselImage6.png";
 import image5 from "../assets/CarouselImage7.png";
 import { Col, Container, Row } from "react-bootstrap";
+
 const Promotions = () => {
   return (
     <>

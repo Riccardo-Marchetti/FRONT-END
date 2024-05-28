@@ -12,6 +12,7 @@ const ShowForm = () => {
   const [error, setError] = useState(null);
   const [isCreated, setIsCreated] = useState(false);
 
+  // Function to make a POST request to create a new show
   const postFilm = async () => {
     setIsLoading(true);
     try {
@@ -44,18 +45,22 @@ const ShowForm = () => {
     }
   };
 
+  // Function to handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     postFilm();
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <>
       <Form onSubmit={handleSubmit} className="text-white">

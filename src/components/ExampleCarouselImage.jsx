@@ -1,5 +1,6 @@
 import { Col, Row } from "react-bootstrap";
 
+// Component to display an image within a carousel
 // eslint-disable-next-line react/prop-types
 const ExampleCarouselImage = ({ image, altText }) => {
   return (

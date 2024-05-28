@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Row, Form, Container } from "react-bootstrap";
+import { Button, Col, Row, Form, Container, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import Error from "./Error";
@@ -12,8 +12,10 @@ const RegisterPage = () => {
   const [surname, setSurname] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
+  const [validationError, setValidationError] = useState("");
   const navigate = useNavigate();
 
+  // Function to make register request
   const fetchRegister = async () => {
     setIsLoading(true);
     try {
@@ -32,21 +34,63 @@ const RegisterPage = () => {
         throw new Error(`${response.status} - Errore nella fetch`);
       }
     } catch (error) {
-      setError("Error in fetch");
+      setError(error.message);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Function to reset form fields
+  const resetForm = () => {
+    setName("");
+    setSurname("");
+    setUsername("");
+    setEmail("");
+    setPassword("");
+  };
+
+  // Function to handle registration submission
   const handleRegister = (e) => {
     e.preventDefault();
+    if (name.length < 3) {
+      setValidationError("Name must be longer than 3 characters");
+      resetForm();
+      return;
+    }
+
+    if (surname.length < 4) {
+      setValidationError("Surname must be longer than 4 characters");
+      resetForm();
+      return;
+    }
+
+    if (username.length < 4) {
+      setValidationError("Username must be longer than 4 characters");
+      resetForm();
+      return;
+    }
+
+    if (!email.includes("@")) {
+      setValidationError("You must enter a valid email");
+      resetForm();
+      return;
+    }
+
+    if (password.length < 4) {
+      setValidationError("Password must be longer than 4 characters");
+      resetForm();
+      return;
+    }
+    // If all validations pass, make register request
     fetchRegister();
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
@@ -67,8 +111,8 @@ const RegisterPage = () => {
             </p>
           </Col>
 
-          <Col className="col-9 col-sm-9 col-md-8 ">
-            <Form className="form mb-4">
+          <Col className="col-9 col-sm-9 col-md-8 pb-1">
+            <Form className="form mb-4 ">
               <Form.Group className="mb-3" controlId="formBasicUsername">
                 <Form.Label>Username</Form.Label>
                 <Form.Control
@@ -122,12 +166,17 @@ const RegisterPage = () => {
               <Button
                 variant="primary"
                 type="submit"
-                className="login-but col-12 mb-1 mt-1"
+                className="login-but col-12 mt-1"
                 onClick={handleRegister}
               >
                 Register
               </Button>
             </Form>
+            {validationError && (
+              <Alert variant="danger" className=" mb-4">
+                {validationError}
+              </Alert>
+            )}
           </Col>
         </Row>
       </Container>

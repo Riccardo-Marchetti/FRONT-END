@@ -19,6 +19,7 @@ const HomePage = () => {
   const handleClose = () => setSelectedFilm(null);
   const handleShow = (film) => setSelectedFilm(film);
 
+  // Fetch films from the backend API based on their state (in theaters or coming soon)
   const fetchFilms = async (filmState) => {
     try {
       const response = await fetch(
@@ -41,6 +42,7 @@ const HomePage = () => {
     }
   };
 
+  // Retrieve films data (in theaters and coming soon) from the backend
   const getFilm = async () => {
     setIsLoading(true);
     try {
@@ -55,21 +57,27 @@ const HomePage = () => {
     }
   };
 
+  // Redirect to movie details page
   const handleButtonClick = (filmId) => {
     navigate(`/movie-details/${filmId}`);
   };
+
+  // Redirect to movie details page for coming soon films
   const showDetails = (filmId) => {
     navigate(`/movie-coming-soon-details/${filmId}`);
   };
 
+  // Fetch films data on component mount
   useEffect(() => {
     getFilm();
   }, []);
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
@@ -85,7 +93,7 @@ const HomePage = () => {
             <CarouselPromotions />
           </Row>
         </Container>
-        <h1 className="text-center px-0 mx-0 mt-3 mb-0 title-home">
+        <h1 className="text-center px-0 mx-0 mt-4 mb-0 title-home">
           Now in theaters
         </h1>
         <Container>
@@ -134,7 +142,7 @@ const HomePage = () => {
             ))}
             <h1
               id="coming-soon"
-              className="text-center px-0 mx-0 mt-3 mb-2 title-home"
+              className="text-center px-0 mx-0 mt-4 mb-2 title-home"
             >
               Coming soon
             </h1>

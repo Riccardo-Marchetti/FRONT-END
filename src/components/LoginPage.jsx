@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Col, Row, Form, Container } from "react-bootstrap";
+import { Button, Col, Row, Form, Container, Alert } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import Loading from "./Loading";
 import Error from "./Error";
@@ -9,8 +9,10 @@ const LoginPage = () => {
   const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [loginFailed, setLoginFailed] = useState(false);
   const navigate = useNavigate();
 
+  // Function to fetch login credentials from backend
   const fetchLogin = async () => {
     setIsLoading(true);
     try {
@@ -24,27 +26,32 @@ const LoginPage = () => {
       if (response.ok) {
         const data = await response.json();
         localStorage.setItem("token", data.accessToken);
+        setLoginFailed(false);
         navigate("/home");
         window.location.reload();
       } else {
-        throw new Error(`${response.status} - Errore nella fetch`);
+        setLoginFailed(true);
       }
     } catch (error) {
       setError("Error in fetch");
+      setLoginFailed(true);
     } finally {
       setIsLoading(false);
     }
   };
 
+  // Handle login form submission
   const handleLogin = (e) => {
     e.preventDefault();
     fetchLogin();
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
@@ -104,6 +111,11 @@ const LoginPage = () => {
                 Login
               </Button>
             </Form>
+            {loginFailed && (
+              <Alert variant="danger" className="mt-2 mb-2">
+                Email or password is incorrect
+              </Alert>
+            )}
           </Col>
         </Row>
       </Container>

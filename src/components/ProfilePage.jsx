@@ -13,6 +13,7 @@ const ProfilePage = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
 
+  // Function to fetch user data
   const getUser = async () => {
     setIsLoading(true);
     try {
@@ -36,6 +37,7 @@ const ProfilePage = () => {
     }
   };
 
+  // Function to fetch user's tickets
   const getTicket = async () => {
     setIsLoading(true);
     try {
@@ -59,35 +61,44 @@ const ProfilePage = () => {
     }
   };
 
-  function convertiData(dataBackend) {
-    let partiData = dataBackend.split("-");
-    let anno = partiData[0];
-    let mese = partiData[1];
-    let giorno = partiData[2];
+  // Function to convert date format from YYYY-MM-DD to DD-MM-YYYY
+  function convertData(dataBackend) {
+    if (dataBackend) {
+      let data = dataBackend.split("-");
+      let year = data[0];
+      let month = data[1];
+      let day = data[2];
 
-    let dataConvertita = giorno + "-" + mese + "-" + anno;
-    return dataConvertita;
+      let dataConvertita = day + "-" + month + "-" + year;
+      return dataConvertita;
+    } else {
+      return "";
+    }
   }
 
+  // Fetch user data and tickets on component mount
   useEffect(() => {
     getUser();
     getTicket();
   }, []);
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
+
   return (
     <>
       <header>
         <MyNavBar />
       </header>
-      <main>
-        <div className="profile-cont">
+      <main style={{ height: "100vh" }}>
+        <div className="profile-cont ">
           <Row className="mt-4 d-flex justify-content-center mx-3 mx-sm-0 ">
             <Col className="col-12 col-sm-10 col-md-5 col-lg-4  col-xxl-3 profile-col me-md-4">
               <Row>
@@ -117,11 +128,11 @@ const ProfilePage = () => {
                 </h6>
               </Col>
             </Col>
-            <Col className="col-12 col-sm-10 col-md-6   mt-3 mt-md-0 tickets-col ms-md-1 ">
+            <Col className="col-12 col-sm-10 col-md-6 mb-5   mt-3 mt-md-0 tickets-col ms-md-1 ">
               <div className="d-flex justify-content-center mt-3 mt-md-2">
                 <h3 className="title-ticket">My tickets :</h3>
               </div>
-              <Row className="justify-content-center  ">
+              <Row className="justify-content-center pb-3 ">
                 {ticket && ticket.length > 0 ? (
                   ticket.map((tick, i) => {
                     return (
@@ -137,7 +148,7 @@ const ProfilePage = () => {
                           {tick.show.cinemaRoom.cinema.city}
                         </p>
                         <p>Showtime: {tick.selectedShowTime}</p>
-                        <p>Show date: {convertiData(tick.show.showDate)}</p>
+                        <p>Show date: {convertData(tick.show.showDate)}</p>
                         <p>Seats: {tick.assignedSeats.join(" - ")}</p>
                         <p className="fw-bold">Ticket price: {tick.price} €</p>
                       </div>

@@ -1,8 +1,10 @@
 /* eslint-disable react/prop-types */
 import { Col, Spinner } from "react-bootstrap";
 
+// Component to display film cover details
 // eslint-disable-next-line react/prop-types
-const FilmCoverDetails = ({ show, convertiData }) => {
+const FilmCoverDetails = ({ show, convertData }) => {
+  // If the show data is not available, show a loading spinner
   if (!show || !show[0]) {
     return (
       <div className="d-flex justify-content-center">
@@ -12,6 +14,7 @@ const FilmCoverDetails = ({ show, convertiData }) => {
       </div>
     );
   }
+
   return (
     <>
       <div
@@ -41,7 +44,7 @@ const FilmCoverDetails = ({ show, convertiData }) => {
             <strong>Duration:</strong> {show[0].film.duration} min
           </p>
           <p className="text-white fadeIn">
-            <strong>Exit date:</strong> {convertiData(show[0].film.exitDate)}
+            <strong>Exit date:</strong> {convertData(show[0].film.exitDate)}
           </p>
           <p className="text-white fadeIn">
             <strong>Director:</strong> {show[0].film.director}

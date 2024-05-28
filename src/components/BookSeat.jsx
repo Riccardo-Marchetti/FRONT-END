@@ -19,9 +19,9 @@ const BookSeat = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [showAlert, setShowAlert] = useState(false);
-
   const navigate = useNavigate();
 
+  // Selectors to get the required state from the Redux store
   const selectedCinema = useSelector((state) => state.ticket.selectCinema);
   const selectedCity = useSelector((state) => state.ticket.selectCity);
   const selectedDay = useSelector((state) => state.ticket.selectDay);
@@ -30,6 +30,7 @@ const BookSeat = () => {
 
   const dispatch = useDispatch();
 
+  // Function to handle seat selection and deselection
   const handleSeatSelect = (seatId, seatPrice, rowNumber, seatNumber) => {
     const seatIndex = selectedSeat.findIndex((seat) => seat.id === seatId);
     if (seatIndex === -1) {
@@ -46,6 +47,7 @@ const BookSeat = () => {
     }
   };
 
+  // Function to book the selected seats
   const bookTicket = async () => {
     if (!selectedTime || !selectedSeat.length || !price || !idShow) {
       setError("Missing required fields");
@@ -84,6 +86,7 @@ const BookSeat = () => {
     }
   };
 
+  // Function to get booked seats for the selected show
   const getBookedSeats = async (showId, showDate, showTime) => {
     const response = await fetch(
       `http://localhost:3001/ticket/bookedSeats/${showId}/${showDate}/${showTime}`,
@@ -101,6 +104,7 @@ const BookSeat = () => {
     }
   };
 
+  // useEffect to fetch available seats when component mounts or dependencies change
   useEffect(() => {
     const fetchSeats = async () => {
       try {
@@ -138,6 +142,7 @@ const BookSeat = () => {
   const numberOfRows = 8;
   const seatForRows = 8;
 
+  // Function to convert date format from backend to frontend
   function convertiData(dataBackend) {
     if (dataBackend) {
       let partiData = dataBackend.split("-");
@@ -151,14 +156,18 @@ const BookSeat = () => {
       return "";
     }
   }
+
+  // Close the alert
   const handleAlertClose = () => {
     setShowAlert(false);
   };
 
+  // If the data is still loading, show the loading component
   if (loading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }

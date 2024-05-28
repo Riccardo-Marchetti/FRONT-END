@@ -18,6 +18,7 @@ const MovieForm = () => {
   const [error, setError] = useState(null);
   const [isCreated, setIsCreated] = useState(false);
 
+  // Method to make a POST request to create a film
   const postFilm = async () => {
     setIsLoading(true);
     try {
@@ -56,15 +57,18 @@ const MovieForm = () => {
     }
   };
 
+  // Handle form submission
   const handleSubmit = (e) => {
     e.preventDefault();
     postFilm();
   };
 
+  // If the data is still loading, show the loading component
   if (isLoading) {
     return <Loading />;
   }
 
+  // If there is an error, show the error component
   if (error) {
     return <Error message={error} />;
   }
