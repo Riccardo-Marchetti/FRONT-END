@@ -9,8 +9,8 @@ import Error from "./Error";
 
 const FilmComingSoonDetails = () => {
   const [film, setFilm] = useState([]);
-  const [loading, setLoading] = useState([]);
-  const [error, setError] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const params = useParams();
 
   // Function to convert date format from YYYY-MM-DD to DD-MM-YYYY
